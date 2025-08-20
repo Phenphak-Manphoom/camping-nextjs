@@ -1,0 +1,21 @@
+import Logo from "./Logo";
+import Search from "./Search";
+
+const Navbar = () => {
+  return (
+    <nav>
+      <div className="container flex flex-col  justify-between py-8 sm:flex-row sm:items-center gap-4">
+        {/* Logo or brand name can go here */}
+        <Logo />
+        {/* Search */}
+        <Search />
+        {/* dark mode and profile */}
+        <div className="flex gap-4">
+          <h1>Dark Mode</h1>
+          <h1>Profile</h1>
+        </div>
+      </div>
+    </nav>
+  );
+};
+export default Navbar;
