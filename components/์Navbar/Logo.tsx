@@ -3,7 +3,7 @@ import { Button } from "../ui/button";
 
 const Logo = () => {
   return (
-    <Button size={"sm"} variant={"outline"} asChild>
+    <Button size={"sm"} asChild>
       <Link href="/" className="text-2xl">
         Logo
       </Link>
