@@ -12,7 +12,8 @@ import { Button } from "../ui/button";
 import UserIcon from "./UserIcon";
 import Link from "next/link";
 import { links } from "@/utils/links";
-
+import SignOutLinks from "./SignOutLinks";
+import { SignedIn, SignedOut, SignInButton, SignUpButton } from "@clerk/nextjs";
 
 const DropdownListMenu = () => {
   return (
@@ -25,14 +26,33 @@ const DropdownListMenu = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent>
         <DropdownMenuLabel>My Account</DropdownMenuLabel>
+
         <DropdownMenuSeparator />
-        {links.map((item, index) => {
-          return (
-            <DropdownMenuItem key={index}>
-              <Link href={item.href}>{item.label}</Link>
-            </DropdownMenuItem>
-          );
-        })}
+        <SignedOut>
+          <DropdownMenuItem>
+            <SignInButton mode="modal">
+              <button>Login</button>
+            </SignInButton>
+          </DropdownMenuItem>
+          <DropdownMenuItem>
+            <SignUpButton>
+              <button>Register</button>
+            </SignUpButton>
+          </DropdownMenuItem>
+        </SignedOut>
+        <SignedIn>
+          {links.map((item, index) => {
+            return (
+              <DropdownMenuItem key={index}>
+                <Link href={item.href}>{item.label}</Link>
+              </DropdownMenuItem>
+            );
+          })}
+          <DropdownMenuSeparator />
+          <DropdownMenuItem>
+            <SignOutLinks />
+          </DropdownMenuItem>
+        </SignedIn>
       </DropdownMenuContent>
     </DropdownMenu>
   );
