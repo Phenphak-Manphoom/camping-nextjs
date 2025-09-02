@@ -1,17 +1,7 @@
+import { createProfileAction } from "@/actions/actions";
 import { SubmitButton } from "@/components/form/Buttons";
 import FormContainer from "@/components/form/FormContainer";
 import FormInput from "@/components/form/FormInput";
-import { Button } from "@/components/ui/button";
-
-const createProfileAction = async (prevState:any,formData: FormData) => {
-  "use server";
-  const firstName = formData.get("firstName") as string;
-  //validate
-  //Insert into db
-  //return
-  console.log("Hi", firstName);
-  return { message: "Profile created successfully!" }
-};
 
 const CreateProfile = () => {
   return (
@@ -27,13 +17,13 @@ const CreateProfile = () => {
               placeholder="First Name"
             />
             <FormInput
-              name="LastName"
+              name="lastName"
               label="Last Name"
               type="text"
               placeholder="Last Name"
             />
             <FormInput
-              name="UserName"
+              name="userName"
               label="User Name"
               type="text"
               placeholder="User Name"
