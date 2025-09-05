@@ -26,8 +26,8 @@ export const createProfileAction = async (
   formData: FormData
 ) => {
   try {
-    const user = await getAuthUser();
-
+    const user = await currentUser();
+    if (!user) throw new Error("You must be logged in");
     const rawData = Object.fromEntries(formData);
     const validatedData = validateWithZod(profileSchema, rawData);
     //console.log("validated", validatedData);
@@ -52,4 +52,23 @@ export const createProfileAction = async (
     return renderError(error);
   }
   redirect("/");
+};
+
+export const createLandmarkAction = async (
+  prevState: any,
+  formData: FormData
+): Promise<{ message: string }> => {
+  try {
+    const user = await currentUser();
+    if (!user) throw new Error("You must be logged in");
+    const rawData = Object.fromEntries(formData);
+    // const validatedData = validateWithZod(profileSchema, rawData);
+    console.log("validated", rawData);
+
+    return { message: "Landmark created successfully!" };
+  } catch (error) {
+    // console.log(error);
+    return renderError(error);
+  }
+  //  redirect("/");
 };

@@ -1,6 +1,4 @@
 const CampPage = () => {
-  return (
-    <div>CampPage</div>
-  )
-}
-export default CampPage
+  return <div>CampPage</div>;
+};
+export default CampPage;
