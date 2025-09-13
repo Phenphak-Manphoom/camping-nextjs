@@ -16,6 +16,19 @@ export const profileSchema = z.object({
 
 type SchemaType = z.infer<typeof profileSchema>;
 
+const validateImage = () => {
+  const maxFileSize = 1024 * 1024; // 1MB
+  return z.instanceof(File).refine(
+    (file) => {
+      return file.size <= maxFileSize;
+    },
+    { message: "File size should be less than 1MB" }
+  );
+};
+export const imageSchema = z.object({
+  image: validateImage(),
+});
+
 export const validateWithZod = <T extends z.ZodTypeAny>(
   schema: T,
   data: unknown

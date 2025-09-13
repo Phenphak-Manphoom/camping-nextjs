@@ -1,6 +1,6 @@
 "use server";
 
-import { profileSchema, validateWithZod } from "@/utils/schemas";
+import { imageSchema, profileSchema, validateWithZod } from "@/utils/schemas";
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 import { redirect } from "next/navigation";
@@ -26,7 +26,7 @@ export const createProfileAction = async (
   formData: FormData
 ) => {
   try {
-    const user = await currentUser();
+    const user = await currentUser(); //ใช้สำหรับเช็คตอน create profile ว่ามี user หรือยัง ทำแค่ครั้งเดียว
     if (!user) throw new Error("You must be logged in");
     const rawData = Object.fromEntries(formData);
     const validatedData = validateWithZod(profileSchema, rawData);
@@ -59,11 +59,20 @@ export const createLandmarkAction = async (
   formData: FormData
 ): Promise<{ message: string }> => {
   try {
-    const user = await currentUser();
-    if (!user) throw new Error("You must be logged in");
+    const user = await getAuthUser();
+
     const rawData = Object.fromEntries(formData);
+    const file= formData.get("image") as File;
+     
+      const validatedFile= validateWithZod(imageSchema,{image: file})
+       console.log("validated", validatedFile);
+
     // const validatedData = validateWithZod(profileSchema, rawData);
-    console.log("validated", rawData);
+
+    //step 1 validate data
+    //step 2 upload image to supabase
+    //step 3 insert data to db
+  
 
     return { message: "Landmark created successfully!" };
   } catch (error) {
