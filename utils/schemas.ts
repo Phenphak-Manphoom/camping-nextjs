@@ -1,4 +1,5 @@
 import { z } from "zod";
+import { categories } from "./categories";
 
 //const profileSchema = z.string().min(2, "Name must be at least 2 characters");
 
@@ -27,6 +28,25 @@ const validateImage = () => {
 };
 export const imageSchema = z.object({
   image: validateImage(),
+});
+
+export const landmarkSchema = z.object({
+  name: z
+    .string()
+    .min(2, { message: "Name must be at least 2 characters" })
+    .max(30, { message: "Name must not exceed 30 characters" }),
+  category: z.string(),
+  description: z
+    .string()
+    .min(2, { message: "Description must be at least 2 characters" })
+    .max(200, { message: "Description must not exceed 200 characters" }),
+  price: z.coerce
+    .number()
+    .int()
+    .min(0, { message: "Price must be greater than 0" }),
+  province: z.string(),
+  lat: z.coerce.number(),
+  lng: z.coerce.number(),
 });
 
 export const validateWithZod = <T extends z.ZodTypeAny>(
