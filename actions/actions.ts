@@ -9,6 +9,7 @@ import {
 import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 import { redirect } from "next/navigation";
+import { uploadFile } from "@/utils/supabase";
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -69,20 +70,26 @@ export const createLandmarkAction = async (
     const rawData = Object.fromEntries(formData);
     const file = formData.get("image") as File;
 
+    //step 1 validate data
     const validatedFile = validateWithZod(imageSchema, { image: file });
     const validatedField = validateWithZod(landmarkSchema, rawData);
 
-    console.log("validated", validatedFile);
-    console.log("validated", validatedField);
-
-    //step 1 validate data
     //step 2 upload image to supabase
+    const fullPath = await uploadFile(validatedFile.image);
+    console.log(fullPath);
     //step 3 insert data to db
+    await db.landmark.create({
+      data: {
+        ...validatedField,
+        image: fullPath,
+        profileId: user.id,
+      },
+    });
 
-    return { message: "Landmark created successfully!" };
+    // return { message: "Landmark created successfully!" };
   } catch (error) {
     // console.log(error);
     return renderError(error);
   }
-  //  redirect("/");
+  redirect("/");
 };
