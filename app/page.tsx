@@ -1,9 +1,10 @@
+import LandmarkContainers from "@/components/home/LandmarkContainers";
 import { Button } from "@/components/ui/button";
 const Homepage = () => {
+  //Search
   return (
     <>
-      <div>HomePage</div>
-      <Button variant="outline" size="lg">Button</Button>
+      <LandmarkContainers />
     </>
   );
 };
