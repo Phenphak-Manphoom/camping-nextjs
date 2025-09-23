@@ -41,3 +41,24 @@ export const SigninCardButton = () => {
     </SignInButton>
   );
 };
+
+export const CardSubmitButton = ({ isFavorite }: { isFavorite: boolean }) => {
+  //console.log("isFavorite", isFavorite);
+  const { pending } = useFormStatus();
+  return (
+    <Button
+      type="submit"
+      size="icon"
+      variant="outline"
+      className="cursor-pointer"
+    >
+      {pending ? (
+        <RotateCw className="animate-spin" />
+      ) : isFavorite ? (
+        <Heart fill="black" />
+      ) : (
+        <Heart />
+      )}
+    </Button>
+  );
+};

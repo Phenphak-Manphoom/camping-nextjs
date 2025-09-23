@@ -10,6 +10,7 @@ import { clerkClient, currentUser } from "@clerk/nextjs/server";
 import db from "@/utils/db";
 import { redirect } from "next/navigation";
 import { uploadFile } from "@/utils/supabase";
+import { revalidatePath } from "next/cache";
 
 const getAuthUser = async () => {
   const user = await currentUser();
@@ -94,15 +95,61 @@ export const createLandmarkAction = async (
   redirect("/");
 };
 
-export const fetchLandmarks = async (
-  //search 
-) => {
-  //code body
-  const landmarks = await db.landmark.findMany({
-    orderBy: {
-      createdAt: "desc",
+export const fetchLandmarks = async () =>
+  //search
+  {
+    //code body
+    const landmarks = await db.landmark.findMany({
+      orderBy: {
+        createdAt: "desc",
+      },
+    });
+
+    return landmarks;
+  };
+
+export const fetchFavoriteId = async ({
+  landmarkId,
+}: {
+  landmarkId: string;
+}) => {
+  const user = getAuthUser();
+  const favorite = await db.favorite.findFirst({
+    where: {
+      landmarkId: landmarkId,
+      profileId: user.id,
+    },
+    select: {
+      id: true,
     },
   });
+  return favorite?.id || null;
+};
 
-  return landmarks;
+export const toggleFavoriteAction = async (prevState: {
+  favoriteId: string | null;
+  landmarkId: string;
+  pathname: string;
+}) => {
+  const { favoriteId, landmarkId, pathname } = prevState;
+  const user = await getAuthUser();
+  try {
+    //delete
+    if (favoriteId) {
+      await db.favorite.delete({
+        where: { id: favoriteId },
+      });
+      //create
+    } else {
+      await db.favorite.create({
+        data: { landmarkId: landmarkId, profileId: user.id },
+      });
+    }
+    revalidatePath(pathname);
+    return {
+      message: favoriteId ? "Removed from favorites" : "Added to favorites",
+    };
+  } catch (error) {
+    return renderError(error);
+  }
 };
