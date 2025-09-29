@@ -95,18 +95,21 @@ export const createLandmarkAction = async (
   redirect("/");
 };
 
-export const fetchLandmarks = async () =>
-  //search
-  {
-    //code body
-    const landmarks = await db.landmark.findMany({
-      orderBy: {
-        createdAt: "desc",
-      },
-    });
+export const fetchLandmarks = async ({ search = "" }: { search?: string }) => {
+  const landmarks = await db.landmark.findMany({
+    where: {
+      OR: [
+        { name: { contains: search, mode: "insensitive" } },
+        { description: { contains: search, mode: "insensitive" } },
+      ],
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
 
-    return landmarks;
-  };
+  return landmarks;
+};
 
 export const fetchFavoriteId = async ({
   landmarkId,
