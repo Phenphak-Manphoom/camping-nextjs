@@ -118,6 +118,17 @@ export const fetchLandmarks = async ({
   return landmarks;
 };
 
+export const fetchLandmarksHero = async () => {
+  const landmarks = await db.landmark.findMany({
+    orderBy: {
+      createdAt: "desc",
+    },
+    take: 5,
+  });
+
+  return landmarks;
+};
+
 export const fetchFavoriteId = async ({
   landmarkId,
 }: {
