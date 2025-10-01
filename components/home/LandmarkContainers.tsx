@@ -27,7 +27,7 @@ const LandmarkContainers = async ({
       <Hero landmarks={landmarksHero} />
       <CategoriesList search={search} category={category} />
       {landmarks.length === 0 ? (
-        <EmptyList />
+        <EmptyList btnText="Clear Filters" />
       ) : (
         <LandmarkLists landmarks={landmarks} />
       )}
