@@ -197,3 +197,10 @@ export const fetchFavorites = async () => {
   });
   return favorites.map((favorite) => favorite.landmark);
 };
+
+export const fetchLandmarkDetails = async ({ id }: { id: string }) => {
+  return await db.landmark.findFirst({
+    where: { id },
+    include: { profile: true },
+  });
+};
