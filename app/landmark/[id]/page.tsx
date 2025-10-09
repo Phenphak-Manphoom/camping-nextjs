@@ -1,5 +1,6 @@
 import { fetchLandmarkDetails } from "@/actions/actions";
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
+import ImageContainer from "@/components/landmark/ImageContainer";
 import MyBreadcrumb from "@/components/landmark/MyBreadcrumb";
 import { redirect } from "next/navigation";
 
@@ -18,6 +19,8 @@ const LandmarkDetails = async ({ params }: { params: { id: string } }) => {
           <FavoriteToggleButton landmarkId={landmark.id} />
         </div>
       </header>
+      {/* image */}
+      <ImageContainer mainImage={landmark.image} name={landmark.name} />
     </section>
   );
 };
