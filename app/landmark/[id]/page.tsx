@@ -1,5 +1,6 @@
 import { fetchLandmarkDetails } from "@/actions/actions";
 import FavoriteToggleButton from "@/components/card/FavoriteToggleButton";
+import Descriptions from "@/components/landmark/Descriptions";
 import ImageContainer from "@/components/landmark/ImageContainer";
 import MyBreadcrumb from "@/components/landmark/MyBreadcrumb";
 import { redirect } from "next/navigation";
@@ -14,13 +15,19 @@ const LandmarkDetails = async ({ params }: { params: { id: string } }) => {
       <MyBreadcrumb name={landmark.name} />
       <header className="flex justify-between mt-4 items-center">
         <h1 className="text-4xl font-bold">{landmark.name} </h1>
-        <div className="flex gap-4 items-center">
+        <div className="flex items-center gap-x-4">
           <span>share</span>
           <FavoriteToggleButton landmarkId={landmark.id} />
         </div>
       </header>
       {/* image */}
       <ImageContainer mainImage={landmark.image} name={landmark.name} />
+      {/* details */}
+      <section>
+        <div>
+          <Descriptions description={landmark.description} />
+        </div>
+      </section>
     </section>
   );
 };

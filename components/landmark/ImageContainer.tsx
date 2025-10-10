@@ -8,9 +8,9 @@ const ImageContainer = ({
   name: string;
 }) => {
   return (
-    <section className="h-[300px] md:h-[500px] relative my-8">
+    <section className="h-[300px] md:h-[500px] relative mt-8">
       <Image
-        src={mainImage}
+         src={mainImage}
         sizes="100vw"
         alt={name}
         fill
